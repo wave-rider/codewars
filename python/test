@@ -1,0 +1,18 @@
+def row_sums(square):
+    """takes such a (possibly magic) square as a parameter and returns a list of
+    the row sums"""
+    result = []
+    for row in square:
+        row_counter = 0
+        for num in row:
+            row_counter += num
+        result.append(row_counter)
+    return result
+
+square = [
+    [2, 7, 6],
+    [9, 5, 1],
+    [4, 3, 8]
+]
+print(row_sums(square))
+
