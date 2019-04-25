@@ -1,17 +1,16 @@
 def queue_time(customers, n):
-    if len(customers) is 0:
-        return 0
-    index = n
-    tills = customers[0:n]
-    total = 0
-    while index < len(customers):
-        minimum_time = min(tills)
-        till_index = 0
-        total += minimum_time
-        while till_index < n:
-            tills[till_index] -= minimum_time
-            if index < len(customers) and tills[till_index] == 0 :
-                tills[till_index] = customers[index]
-                index += 1
-            till_index += 1
-    return total + max(tills)
+    l=[0]*n
+    for i in customers:
+        l[l.index(min(l))]+=i
+    return max(l)
+
+#a = queue_time([5,3,4], 1)
+#print(a)
+
+a = queue_time([2,3,10], 2)
+print(a)
+
+
+a = [1,2,3,67,89]
+for index, item in enumerate(a):
+    print(index, item)
