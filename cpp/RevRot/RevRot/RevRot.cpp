@@ -32,7 +32,7 @@ std::string RevRot::revRot(const std::string &strng, unsigned int sz)
         if (stream.fail() == false) {
             long sum=0;
             for (int i=0; i<sz; i++){
-                int number_to_add = chunk[i]-48;
+                int number_to_add = chunk[i] - 48;
                 sum = sum + pow(number_to_add, 3);
             }
             if (sum % 2 ==0)
