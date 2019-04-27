@@ -12,26 +12,26 @@ which sum (of its six primes) surpasses the sum_limit value.
 '''
 import time
 
+start = time.time()
+sextuplets = []
+
 def primes(n):
     """ Returns  a list of primes < n """
-    start = time.time()
     sieve = [True] * n
     for i in range(3,int(n**0.5)+1, 2):
         if sieve[i]:
             sieve[i*i::2*i]=[False] * ((n-i*i-1)//(2*i)+1)
-    end = time.time()
     return [2] + [i for i in range(3, n, 2) if sieve[i]]
 
-#global p
+
 prime_list = primes(6005904)
 
-def find_primes_sextuplet(sum_limit):
+def find_sextuplets():
     my_queue = [0] * 6
     the_rule = [0, 4, 6, 10, 12, 16]
-    rule_sum = sum(the_rule)
     index = 0
 
-    while sum(my_queue) < sum_limit:
+    while sum(my_queue) < 29700000:
         rule_index = 1
         k = index
         while rule_index < 6 and prime_list[index] + the_rule[rule_index] == prime_list[k+1]:
@@ -39,12 +39,19 @@ def find_primes_sextuplet(sum_limit):
             k+=1
 
         if rule_index == 6:
-            my_queue =  prime_list[index:index + 6]
-            print(my_queue)
+            my_queue = prime_list[index:index + 6]
+            sextuplets.append(my_queue)
         index += 1
 
     return my_queue
-start = time.time()
+
+find_sextuplets()
+
+def find_primes_sextuplet(sum_limit):
+    for tuplet in sextuplets:
+        if sum(tuplet)>=sum_limit:
+            return tuplet
+
 r = find_primes_sextuplet(29700000)
 end = time.time()
 print(end-start)
