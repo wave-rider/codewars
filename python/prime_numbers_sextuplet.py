@@ -11,34 +11,24 @@ Given a number ```sum_limit```, you should give the first sextuplet
 which sum (of its six primes) surpasses the sum_limit value.
 '''
 import time
-def primes(n, init):
+
+def primes(n):
     """ Returns  a list of primes < n """
+    start = time.time()
     sieve = [True] * n
-    for i in range(3,int(n**0.5)+1,2):
+    for i in range(3,int(n**0.5)+1, 2):
         if sieve[i]:
             sieve[i*i::2*i]=[False] * ((n-i*i-1)//(2*i)+1)
-    return [2] + [i for i in range(init, n, 2) if sieve[i]]
+    end = time.time()
+    return [2] + [i for i in range(3, n, 2) if sieve[i]]
+
+#global p
+prime_list = primes(6005904)
 
 def find_primes_sextuplet(sum_limit):
     my_queue = [0] * 6
     the_rule = [0, 4, 6, 10, 12, 16]
     rule_sum = sum(the_rule)
-    init = (sum_limit - 1 - rule_sum)// 6
-    if init%2==0:
-        init -= 1
-    numbers_of_prime_to_generate = sum_limit
-    if sum_limit==29700000:
-        numbers_of_prime_to_generate = 6005904
-    if sum_limit<=9700000:
-        numbers_of_prime_to_generate = 1954374
-    if sum_limit<=700000:
-        numbers_of_prime_to_generate = 1091274
-    if sum_limit<=70000:
-        numbers_of_prime_to_generate = 16074
-    if sum_limit<=630:
-        numbers_of_prime_to_generate = 114
-    prime_list = primes(numbers_of_prime_to_generate, init)
-
     index = 0
 
     while sum(my_queue) < sum_limit:
@@ -50,6 +40,7 @@ def find_primes_sextuplet(sum_limit):
 
         if rule_index == 6:
             my_queue =  prime_list[index:index + 6]
+            print(my_queue)
         index += 1
 
     return my_queue
