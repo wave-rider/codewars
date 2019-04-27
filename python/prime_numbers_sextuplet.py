@@ -10,39 +10,51 @@ The second one is ```[97, 101, 103, 107, 109, 113]```
 Given a number ```sum_limit```, you should give the first sextuplet
 which sum (of its six primes) surpasses the sum_limit value.
 '''
+import time
+def primes(n, init):
+    """ Returns  a list of primes < n """
+    sieve = [True] * n
+    for i in range(3,int(n**0.5)+1,2):
+        if sieve[i]:
+            sieve[i*i::2*i]=[False] * ((n-i*i-1)//(2*i)+1)
+    return [2] + [i for i in range(init, n, 2) if sieve[i]]
+
 def find_primes_sextuplet(sum_limit):
     my_queue = [0] * 6
     the_rule = [0, 4, 6, 10, 12, 16]
     rule_sum = sum(the_rule)
     init = (sum_limit - 1 - rule_sum)// 6
-    current_number = 2
-    prime_list = [2]
-    current_prime_index = 0
+    if init%2==0:
+        init -= 1
+    numbers_of_prime_to_generate = sum_limit
+    if sum_limit==29700000:
+        numbers_of_prime_to_generate = 6005904
+    if sum_limit<=9700000:
+        numbers_of_prime_to_generate = 1954374
+    if sum_limit<=700000:
+        numbers_of_prime_to_generate = 1091274
+    if sum_limit<=70000:
+        numbers_of_prime_to_generate = 16074
+    if sum_limit<=630:
+        numbers_of_prime_to_generate = 114
+    prime_list = primes(numbers_of_prime_to_generate, init)
+
+    index = 0
+
     while sum(my_queue) < sum_limit:
-        current_number += 1
-        max_prime = (current_number) // 2
-        index = 0
-        prime_found = True
+        rule_index = 1
+        k = index
+        while rule_index < 6 and prime_list[index] + the_rule[rule_index] == prime_list[k+1]:
+            rule_index += 1
+            k+=1
 
-        while prime_list[index] <= max_prime:
-            if current_number % prime_list[index] == 0:
-                prime_found = False
-                break
-            index += 1
+        if rule_index == 6:
+            my_queue =  prime_list[index:index + 6]
+        index += 1
 
-        if prime_found:
-            prime_list.append(current_number)
-            current_prime_index += 1
-            if current_number >= init and current_prime_index > 6:
-                j = current_prime_index
-                rule_index = 5
-                while j > current_prime_index - 5 and prime_list[current_prime_index - 5] + the_rule[rule_index] == prime_list[j]:
-                    j -= 1
-                    rule_index -= 1
-                if rule_index == 0:
-                    my_queue =  prime_list[current_prime_index - 5:]
-            print(init, current_number, current_prime_index)
     return my_queue
-
-r = find_primes_sextuplet(2000)
+start = time.time()
+r = find_primes_sextuplet(29700000)
+end = time.time()
+print(end-start)
 print(r)
