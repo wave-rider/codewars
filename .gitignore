@@ -2,3 +2,8 @@
 cpp/RevRot/Build/*
 cpp/xandos/Build/*
 .idea/*
+/cpp/Accum/.vs/
+/cpp/Accum/Accum/x64/Debug/
+/cpp/Accum/x64/
+/cpp/Who_likes_it/.vs/
+/cpp/Who_likes_it/Who_likes_it/x64/
